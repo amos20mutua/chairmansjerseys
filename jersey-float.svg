@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .jersey {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2;
+            opacity: 0.1;
+        }
+    </style>
+    <path class="jersey" d="M50,30 L150,30 L140,170 L60,170 Z" />
+    <path class="jersey" d="M50,30 L50,170" />
+    <path class="jersey" d="M150,30 L150,170" />
+    <path class="jersey" d="M70,50 L130,50" />
+    <path class="jersey" d="M70,90 L130,90" />
+    <path class="jersey" d="M70,130 L130,130" />
+</svg> 

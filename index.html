@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Shop the latest football jerseys from top clubs like Manchester United, Arsenal, Chelsea, and more!">
+        <meta name="keywords" content="football jerseys, soccer kits, Manchester United, Chelsea, Barcelona, football shop">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Affordable Jersey Picks Kenya</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="hose.css">
+        <style>
+            :root {
+                --primary-color: #76ABAE;
+                --secondary-color: #2c3e50;
+                --accent-color: #ff6347;
+                --background-color: #f8f9fa;
+            }
+
+            .hero {
+                position: relative;
+                height: 100vh;
+                overflow: hidden;
+                background: linear-gradient(135deg, #0a192f, #112240);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                color: white;
+                perspective: 1000px;
+            }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 20%, rgba(118, 171, 174, 0.1) 0%, transparent 30%),
+                    radial-gradient(circle at 80% 80%, rgba(118, 171, 174, 0.1) 0%, transparent 30%),
+                    linear-gradient(45deg, transparent 48%, rgba(118, 171, 174, 0.1) 49%, rgba(118, 171, 174, 0.1) 51%, transparent 52%);
+                background-size: 100% 100%, 100% 100%, 30px 30px;
+                z-index: 1;
+                animation: backgroundShift 20s linear infinite;
+            }
+
+            .hero::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+                z-index: 2;
+                animation: shine 3s linear infinite;
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 3;
+                max-width: 800px;
+                padding: 2rem;
+                animation: fadeInUp 1s ease;
+                transform-style: preserve-3d;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 5vw, 4rem);
+                margin-bottom: 1.5rem;
+                background: linear-gradient(45deg, #ffffff, #76ABAE, #ffffff);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-size: 200% auto;
+                animation: gradientText 5s linear infinite;
+                text-shadow: 0 0 20px rgba(118, 171, 174, 0.3);
+                transform: translateZ(20px);
+            }
+
+            .hero p {
+                font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+                margin-bottom: 2rem;
+                color: rgba(255, 255, 255, 0.9);
+                animation: fadeInUp 1s ease 0.3s backwards;
+                transform: translateZ(15px);
+            }
+
+            .cta-button {
+                display: inline-block;
+                padding: clamp(1rem, 2vw, 1.2rem) clamp(2rem, 4vw, 2.5rem);
+                background: linear-gradient(45deg, #76ABAE, #2c3e50);
+                color: white;
+                text-decoration: none;
+                border-radius: 30px;
+                font-weight: 600;
+                font-size: clamp(1rem, 2vw, 1.2rem);
+                transition: all 0.3s ease;
+                animation: fadeInUp 1s ease 0.6s backwards;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                position: relative;
+                overflow: hidden;
+                border: 2px solid rgba(255, 255, 255, 0.1);
+                transform: translateZ(25px);
+            }
+
+            .cta-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: 0.5s;
+            }
+
+            .cta-button:hover::before {
+                left: 100%;
+            }
+
+            .cta-button:hover {
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                border-color: rgba(255, 255, 255, 0.3);
+            }
+
+            .featured-products {
+                padding: 6rem 2rem;
+                background: linear-gradient(135deg, #0a192f, #112240);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .featured-products::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 20%, rgba(118, 171, 174, 0.05) 0%, transparent 30%),
+                    radial-gradient(circle at 80% 80%, rgba(118, 171, 174, 0.05) 0%, transparent 30%),
+                    linear-gradient(45deg, transparent 48%, rgba(118, 171, 174, 0.05) 49%, rgba(118, 171, 174, 0.05) 51%, transparent 52%);
+                background-size: 100% 100%, 100% 100%, 30px 30px;
+                animation: backgroundShift 20s linear infinite;
+            }
+
+            .section-title {
+                text-align: center;
+                margin-bottom: 4rem;
+                position: relative;
+                z-index: 2;
+            }
+
+            .section-title h2 {
+                font-size: clamp(2rem, 4vw, 3rem);
+                color: white;
+                display: inline-block;
+                position: relative;
+                background: linear-gradient(45deg, #ffffff, #76ABAE);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 0 0 20px rgba(118, 171, 174, 0.3);
+            }
+
+            .product-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2.5rem;
+                max-width: 1400px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 2;
+                padding: 0 1rem;
+            }
+
+            .product-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                position: relative;
+                transform-style: preserve-3d;
+                perspective: 1000px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .product-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, transparent 0%, rgba(118, 171, 174, 0.1) 100%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .product-card:hover {
+                transform: translateY(-10px) rotateX(3deg);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .product-image {
+                width: 100%;
+                height: 350px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+                transform-origin: center;
+                position: relative;
+                transform-style: preserve-3d;
+            }
+
+            .product-card:hover .product-image {
+                transform: scale(1.05) translateZ(10px);
+            }
+
+            .product-info {
+                padding: 2rem;
+                background: rgba(255, 255, 255, 0.05);
+                position: relative;
+                z-index: 1;
+                transform-style: preserve-3d;
+            }
+
+            .product-info h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+                color: white;
+                transition: transform 0.3s ease;
+            }
+
+            .product-card:hover .product-info h3 {
+                transform: translateZ(5px);
+            }
+
+            .product-info p {
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 1.5rem;
+                line-height: 1.6;
+            }
+
+            .product-price {
+                color: #76ABAE;
+                font-weight: bold;
+                font-size: 1.4rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                transition: transform 0.3s ease;
+            }
+
+            .original-price {
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: line-through;
+                font-size: 1.2rem;
+                position: relative;
+            }
+
+            .discounted-price {
+                color: #76ABAE;
+                font-size: 1.4rem;
+                font-weight: bold;
+            }
+
+            .discount-badge {
+                background: linear-gradient(45deg, #ff6347, #ff8c00);
+                color: white;
+                padding: 0.3rem 0.8rem;
+                border-radius: 15px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin-left: 0.5rem;
+            }
+
+            .product-card:hover .product-price {
+                transform: translateZ(8px);
+            }
+
+            .purchase-btn {
+                background: linear-gradient(45deg, #25D366, #128C7E);
+                color: white;
+                border: none;
+                padding: 0.8rem 1.5rem;
+                border-radius: 25px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+                transform-style: preserve-3d;
+            }
+
+            .product-card:hover .purchase-btn {
+                transform: translateZ(12px);
+            }
+
+            .purchase-btn:hover {
+                transform: translateY(-3px) translateZ(12px);
+                box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            }
+
+            .sale-badge {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: linear-gradient(45deg, #ff6347, #ff8c00);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                font-weight: bold;
+                z-index: 2;
+                transform: rotate(15deg) translateZ(15px);
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                transition: transform 0.3s ease;
+            }
+
+            .product-card:hover .sale-badge {
+                transform: rotate(15deg) translateZ(20px);
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0px) rotate(var(--rotation)) translateZ(30px);
+                }
+                50% {
+                    transform: translateY(-20px) rotate(calc(var(--rotation) + 5deg)) translateZ(40px);
+                }
+                100% {
+                    transform: translateY(0px) rotate(var(--rotation)) translateZ(30px);
+                }
+            }
+
+            .floating-jersey {
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: url('jersey-float.svg') center/contain no-repeat;
+                animation: float 3s ease-in-out infinite;
+                opacity: 0.15;
+                z-index: 1;
+                filter: drop-shadow(0 0 15px rgba(118, 171, 174, 0.3));
+                transform-style: preserve-3d;
+            }
+
+            .floating-jersey:nth-child(1) {
+                top: 20%;
+                left: 10%;
+                animation-delay: 0s;
+                transform: rotate(-15deg) translateZ(30px);
+                --rotation: -15deg;
+            }
+
+            .floating-jersey:nth-child(2) {
+                top: 40%;
+                right: 15%;
+                animation-delay: 1s;
+                transform: rotate(15deg) translateZ(40px);
+                --rotation: 15deg;
+            }
+
+            .floating-jersey:nth-child(3) {
+                bottom: 20%;
+                left: 20%;
+                animation-delay: 2s;
+                transform: rotate(-10deg) translateZ(35px);
+                --rotation: -10deg;
+            }
+
+            @keyframes backgroundShift {
+                0% {
+                    background-position: 0% 0%, 0% 0%, 0 0;
+                }
+                100% {
+                    background-position: 100% 100%, 100% 100%, 30px 30px;
+                }
+            }
+
+            @keyframes shine {
+                0% {
+                    transform: translateX(-100%) translateZ(0);
+                }
+                100% {
+                    transform: translateX(100%) translateZ(0);
+                }
+            }
+
+            @keyframes gradientText {
+                0% {
+                    background-position: 0% center;
+                }
+                100% {
+                    background-position: 200% center;
+                }
+            }
+
+            .admin-link {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #76ABAE;
+                color: white;
+                padding: 1rem;
+                border-radius: 50%;
+                text-decoration: none;
+                transition: transform 0.3s ease;
+            }
+
+            .admin-link:hover {
+                transform: scale(1.1);
+            }
+
+            /* Mobile Responsive Styles */
+            @media (max-width: 768px) {
+                .hero {
+                    height: 80vh;
+                    perspective: none;
+                }
+
+                .hero-content {
+                    transform-style: flat;
+                }
+
+                .hero h1, .hero p, .cta-button {
+                    transform: none;
+                }
+
+                .floating-jersey {
+                    width: 150px;
+                    height: 150px;
+                    transform-style: flat;
+                }
+
+                .floating-jersey:nth-child(1) {
+                    top: 15%;
+                    left: 5%;
+                }
+
+                .floating-jersey:nth-child(2) {
+                    top: 30%;
+                    right: 5%;
+                }
+
+                .floating-jersey:nth-child(3) {
+                    bottom: 15%;
+                    left: 10%;
+                }
+
+                .featured-products {
+                    padding: 4rem 1rem;
+                }
+
+                .product-grid {
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                }
+
+                .product-card {
+                    transform-style: flat;
+                    perspective: none;
+                }
+
+                .product-card:hover {
+                    transform: translateY(-5px);
+                }
+
+                .product-card:hover .product-image {
+                    transform: scale(1.02);
+                }
+
+                .product-card:hover .product-info h3,
+                .product-card:hover .product-price,
+                .product-card:hover .purchase-btn,
+                .product-card:hover .sale-badge {
+                    transform: none;
+                }
+
+                .purchase-btn:hover {
+                    transform: translateY(-2px);
+                }
+
+                .product-image {
+                    height: 250px;
+                }
+
+                .section-title h2 {
+                    font-size: 2rem;
+                }
+
+                .features {
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                    padding: 0 1rem;
+                }
+
+                .feature {
+                    padding: 1.5rem;
+                }
+
+                .business-info {
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                    padding: 0 1rem;
+                }
+
+                .info-card {
+                    padding: 1.5rem;
+                }
+
+                .contact-buttons {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .contact-buttons a {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .hero {
+                    height: 70vh;
+                }
+
+                .featured-products {
+                    padding: 3rem 1rem;
+                }
+
+                .floating-jersey {
+                    width: 100px;
+                    height: 100px;
+                }
+
+                .floating-jersey:nth-child(1) {
+                    top: 15%;
+                    left: 5%;
+                }
+
+                .floating-jersey:nth-child(2) {
+                    top: 30%;
+                    right: 5%;
+                }
+
+                .floating-jersey:nth-child(3) {
+                    bottom: 15%;
+                    left: 10%;
+                }
+
+                .product-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .product-image {
+                    height: 200px;
+                }
+
+                .product-info {
+                    padding: 1.5rem;
+                }
+
+                .product-info h3 {
+                    font-size: 1.3rem;
+                }
+
+                .product-price {
+                    font-size: 1.2rem;
+                }
+
+                .product-card {
+                    max-width: 100%;
+                }
+            }
+
+            /* Footer Optimization */
+            footer {
+                background: var(--secondary-color);
+                color: white;
+                padding: 2rem 1rem;
+                margin-top: 3rem;
+            }
+
+            .footer-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .footer-about,
+            .footer-contact {
+                text-align: center;
+            }
+
+            .footer-about h3,
+            .footer-contact h4 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+                color: var(--primary-color);
+            }
+
+            .footer-about p,
+            .footer-contact p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 0.5rem;
+            }
+
+            .footer-contact a {
+                color: var(--primary-color);
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-contact a:hover {
+                color: white;
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding: 1rem;
+                margin-top: 2rem;
+                font-size: 0.8rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            @media (max-width: 768px) {
+                footer {
+                    padding: 1.5rem 1rem;
+                }
+
+                .footer-container {
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                }
+
+                .footer-bottom {
+                    padding: 0.8rem;
+                    font-size: 0.75rem;
+                }
+            }
+
+            /* Navigation Mobile Optimization */
+            @media (max-width: 768px) {
+                nav {
+                    padding: 1rem;
+                }
+
+                .nav-links {
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    width: 100%;
+                    background: var(--secondary-color);
+                    padding: 1rem;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .nav-links.show {
+                    display: flex;
+                }
+
+                .nav-links a {
+                    color: white;
+                    padding: 0.5rem;
+                    text-align: center;
+                }
+
+                .hamburger {
+                    display: block;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                }
+
+                .hamburger span {
+                    display: block;
+                    width: 25px;
+                    height: 3px;
+                    background: var(--primary-color);
+                    margin: 5px 0;
+                    transition: 0.3s;
+                }
+            }
+        </style>
+    </head>
+
+     <body>
+  <!-- Header -->
+<header>
+    <nav>
+        <div class="logo">Jersey Picks</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+</header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-jersey"></div>
+        <div class="floating-jersey"></div>
+        <div class="floating-jersey"></div>
+        <div class="hero-content">
+            <h1>Premium Jerseys at Affordable Prices</h1>
+            <p>Discover our collection of authentic football jerseys from top teams around the world</p>
+            <a href="#products" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="featured-products" id="products">
+        <div class="section-title">
+            <h2>Featured Jerseys</h2>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2>About Us</h2>
+            <p>We are passionate about bringing you the highest quality football jerseys from your favorite teams worldwide. Each jersey in our collection is carefully selected to ensure authenticity and premium quality.</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Fast Shipping</h3>
+                    <p>Quick delivery worldwide</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Authentic Products</h3>
+                    <p>100% genuine jerseys</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Always here to help</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2>Visit Us</h2>
+        <div class="contact-container">
+            <div class="business-info">
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Business Hours</h3>
+                    <ul>
+                        <li>Monday - Friday: 8:00 AM - 6:00 PM</li>
+                        <li>Saturday: 9:00 AM - 5:00 PM</li>
+                        <li>Sunday: 10:00 AM - 3:00 PM</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-store"></i>
+                    <h3>Find Us At</h3>
+                    <p>Karen Shopping Center</p>
+                    <p>Karen, Nairobi, Kenya</p>
+                    <a href="https://maps.google.com/?q=Karen+Shopping+Center+Nairobi" class="direction-btn" target="_blank">
+                        <i class="fas fa-directions"></i> Get Directions
+                    </a>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-phone-alt"></i>
+                    <h3>Quick Contact</h3>
+                    <div class="contact-buttons">
+                        <a href="https://api.whatsapp.com/send?phone=254768097103" class="whatsapp-btn" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+254 768 097 103" class="call-btn">
+                            <i class="fas fa-phone"></i> Call Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>Chairman's Jersey Store</h3>
+                <p>Your one-stop shop for authentic and high-quality jerseys. We bring your favorite team to your wardrobe.</p>
+            </div>
+    
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>Email: <a href="mailto:josephkitema840@gmail.com">josephkitema840@gmail.com</a></p>
+                <p>Phone: +254 768 097 103</p>
+                <p>Location: Nairobi, Kenya</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Chairman's Jersey Store. All Rights Reserved. | Developed with 💻 by Amos❤️</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Navigation
+        const hamburger = document.createElement('div');
+        hamburger.className = 'hamburger';
+        hamburger.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
+        
+        const nav = document.querySelector('nav');
+        const navLinks = document.querySelector('.nav-links');
+        
+        nav.appendChild(hamburger);
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu after clicking
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
+                        hamburger.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // Load products from localStorage
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        
+        // Display products on the page
+        const productGrid = document.getElementById('productGrid');
+        
+        function displayProducts() {
+            productGrid.innerHTML = ''; // Clear existing products
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                const discountedPrice = product.discount > 0 
+                    ? product.price * (1 - product.discount/100)
+                    : product.price;
+                
+                productCard.innerHTML = `
+                    ${product.discount > 0 ? `<div class="sale-badge">-${product.discount}%</div>` : ''}
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="product-price">
+                            ${product.discount > 0 
+                                ? `
+                                    <span class="original-price">KES ${product.price}</span>
+                                    <span class="discounted-price">KES ${discountedPrice.toFixed(2)}</span>
+                                    <span class="discount-badge">-${product.discount}% OFF</span>
+                                `
+                                : `<span class="discounted-price">KES ${product.price}</span>`
+                            }
+                        </div>
+                        <button class="purchase-btn" onclick="purchaseJersey('${product.name}', ${discountedPrice}, '${product.image}')">
+                            <i class="fab fa-whatsapp"></i> Purchase on WhatsApp
+                        </button>
+                    </div>
+                `;
+                
+                productGrid.appendChild(productCard);
+            });
+        }
+
+        // Display products when page loads
+        displayProducts();
+
+        // Check for product updates every 5 seconds
+        setInterval(() => {
+            const newProducts = JSON.parse(localStorage.getItem('products')) || [];
+            if (JSON.stringify(products) !== JSON.stringify(newProducts)) {
+                products.length = 0;
+                products.push(...newProducts);
+                displayProducts();
+            }
+        }, 5000);
+
+        function purchaseJersey(name, price, image) {
+            const phoneNumber = '254768097103'; // Your WhatsApp number
+            const message = `I'm interested in purchasing this jersey:
+            
+Name: ${name}
+Price: KES ${price.toFixed(2)}
+Image: ${image}
+
+Please provide more details about availability and payment options.`;
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
