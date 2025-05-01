@@ -2,5 +2,8 @@
 package = "@netlify/plugin-php"
 
 [build]
-command = "echo 'PHP build complete'"
-publish = "." 
+command = "echo 'Build complete'"
+publish = "."
+
+[functions]
+directory = "netlify/functions" 
