@@ -1,9 +1,6 @@
-[[plugins]]
-package = "@netlify/plugin-php"
-
 [build]
-command = "echo 'Build complete'"
-publish = "."
+  command = "echo 'Build complete'"
+  publish = "."
 
-[functions]
-directory = "netlify/functions" 
+[build.environment]
+  NODE_VERSION = "18" 
