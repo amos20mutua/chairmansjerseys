@@ -11,22 +11,22 @@
         <link rel="stylesheet" href="hose.css">
         <style>
             :root {
-                --primary-color: #2c3e50; /* Deep blue-gray - masculine base */
-                --secondary-color: #34495e; /* Slightly lighter blue-gray */
-                --accent-color: #e74c3c; /* Rich red - adds warmth */
-                --background-color: #f8f9fa;
-                --text-color: #2c3e50;
-                --gradient-primary: linear-gradient(135deg, #2c3e50, #34495e);
-                --gradient-accent: linear-gradient(45deg, #e74c3c, #c0392b);
-                --gradient-soft: linear-gradient(45deg, #3498db, #9b59b6); /* Soft purple-blue - feminine touch */
-                --gradient-gold: linear-gradient(45deg, #f1c40f, #f39c12); /* Gold accents */
+                --primary-color: #1a1a2e; /* Deep navy - masculine base */
+                --secondary-color: #16213e; /* Slightly lighter navy */
+                --accent-color: #e94560; /* Rich red - adds warmth */
+                --background-color: #0f3460; /* Dark blue background */
+                --text-color: #ffffff;
+                --gradient-primary: linear-gradient(135deg, #1a1a2e, #16213e);
+                --gradient-accent: linear-gradient(45deg, #e94560, #c31432);
+                --gradient-soft: linear-gradient(45deg, #0f3460, #16213e);
+                --gradient-gold: linear-gradient(45deg, #f9a826, #f37121);
             }
 
             .hero {
                 position: relative;
                 height: 100vh;
                 overflow: hidden;
-                background: linear-gradient(135deg, #2c3e50, #34495e);
+                background: linear-gradient(135deg, #1a1a2e, #16213e);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -43,9 +43,9 @@
                 width: 100%;
                 height: 100%;
                 background: 
-                    radial-gradient(circle at 20% 20%, rgba(231, 76, 60, 0.1) 0%, transparent 30%),
-                    radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 30%),
-                    linear-gradient(45deg, transparent 48%, rgba(241, 196, 15, 0.1) 49%, rgba(241, 196, 15, 0.1) 51%, transparent 52%);
+                    radial-gradient(circle at 20% 20%, rgba(233, 69, 96, 0.1) 0%, transparent 30%),
+                    radial-gradient(circle at 80% 80%, rgba(15, 52, 96, 0.1) 0%, transparent 30%),
+                    linear-gradient(45deg, transparent 48%, rgba(249, 168, 38, 0.1) 49%, rgba(249, 168, 38, 0.1) 51%, transparent 52%);
                 background-size: 100% 100%, 100% 100%, 30px 30px;
                 z-index: 1;
                 animation: backgroundShift 20s linear infinite;
@@ -76,13 +76,13 @@
             .hero h1 {
                 font-size: clamp(2.5rem, 5vw, 4rem);
                 margin-bottom: 1.5rem;
-                background: linear-gradient(45deg, #ffffff, #f1c40f, #e74c3c);
+                background: linear-gradient(45deg, #ffffff, #f9a826, #e94560);
                 -webkit-background-clip: text;
                 background-clip: text;
                 color: transparent;
                 background-size: 200% auto;
                 animation: gradientText 5s linear infinite;
-                text-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+                text-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
                 transform: translateZ(20px);
             }
 
@@ -94,10 +94,44 @@
                 transform: translateZ(15px);
             }
 
+            .hero-image {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) translateZ(0);
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0.1;
+                pointer-events: none;
+            }
+
+            .hero-image::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="rgba(233, 69, 96, 0.1)" stroke-width="0.5"/></svg>') center/contain no-repeat;
+                animation: rotate 20s linear infinite;
+            }
+
+            .hero-image::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(249, 168, 38, 0.1)" stroke-width="0.5"/></svg>') center/contain no-repeat;
+                animation: rotate 15s linear infinite reverse;
+            }
+
             .cta-button {
                 display: inline-block;
                 padding: clamp(1rem, 2vw, 1.2rem) clamp(2rem, 4vw, 2.5rem);
-                background: linear-gradient(45deg, #e74c3c, #c0392b);
+                background: linear-gradient(45deg, #e94560, #c31432);
                 color: white;
                 text-decoration: none;
                 border-radius: 30px;
@@ -105,7 +139,7 @@
                 font-size: clamp(1rem, 2vw, 1.2rem);
                 transition: all 0.3s ease;
                 animation: fadeInUp 1s ease 0.6s backwards;
-                box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+                box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
                 position: relative;
                 overflow: hidden;
                 border: 2px solid rgba(255, 255, 255, 0.1);
@@ -135,7 +169,7 @@
 
             .featured-products {
                 padding: 6rem 2rem;
-                background: linear-gradient(135deg, #0a192f, #112240);
+                background: linear-gradient(135deg, #1a1a2e, #16213e);
                 position: relative;
                 overflow: hidden;
             }
@@ -167,7 +201,7 @@
                 color: white;
                 display: inline-block;
                 position: relative;
-                background: linear-gradient(45deg, #ffffff, #76ABAE);
+                background: linear-gradient(45deg, #ffffff, #f9a826);
                 -webkit-background-clip: text;
                 background-clip: text;
                 color: transparent;
@@ -186,7 +220,7 @@
             }
 
             .product-card {
-                background: rgba(255, 255, 255, 0.05);
+                background: rgba(15, 52, 96, 0.1);
                 backdrop-filter: blur(10px);
                 border-radius: 20px;
                 overflow: hidden;
@@ -194,7 +228,6 @@
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
                 position: relative;
                 transform-style: preserve-3d;
-                perspective: 1000px;
                 border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
@@ -205,15 +238,15 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(45deg, transparent 0%, rgba(231, 76, 60, 0.1) 100%);
+                background: linear-gradient(45deg, transparent 0%, rgba(233, 69, 96, 0.1) 100%);
                 opacity: 0;
                 transition: opacity 0.3s ease;
             }
 
             .product-card:hover {
                 transform: translateY(-10px) rotateX(3deg);
-                box-shadow: 0 15px 30px rgba(231, 76, 60, 0.2);
-                border-color: rgba(231, 76, 60, 0.2);
+                box-shadow: 0 15px 30px rgba(233, 69, 96, 0.2);
+                border-color: rgba(233, 69, 96, 0.2);
             }
 
             .product-image {
@@ -256,7 +289,7 @@
             }
 
             .product-price {
-                color: #76ABAE;
+                color: #f9a826;
                 font-weight: bold;
                 font-size: 1.4rem;
                 display: flex;
@@ -273,13 +306,13 @@
             }
 
             .discounted-price {
-                color: #76ABAE;
+                color: #f9a826;
                 font-size: 1.4rem;
                 font-weight: bold;
             }
 
             .discount-badge {
-                background: linear-gradient(45deg, #e74c3c, #c0392b);
+                background: linear-gradient(45deg, #e94560, #c31432);
                 color: white;
                 padding: 0.3rem 0.8rem;
                 border-radius: 15px;
@@ -293,7 +326,7 @@
             }
 
             .purchase-btn {
-                background: linear-gradient(45deg, #25D366, #128C7E);
+                background: linear-gradient(45deg, #e94560, #c31432);
                 color: white;
                 border: none;
                 padding: 0.8rem 1.5rem;
@@ -317,21 +350,21 @@
             .purchase-btn:hover {
                 transform: translateY(-3px) translateZ(12px);
                 box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-                background: linear-gradient(45deg, #128C7E, #25D366);
+                background: linear-gradient(45deg, #c31432, #e94560);
             }
 
             .sale-badge {
                 position: absolute;
                 top: 1rem;
                 right: 1rem;
-                background: linear-gradient(45deg, #e74c3c, #c0392b);
+                background: linear-gradient(45deg, #e94560, #c31432);
                 color: white;
                 padding: 0.5rem 1rem;
                 border-radius: 20px;
                 font-weight: bold;
                 z-index: 2;
                 transform: rotate(15deg) translateZ(15px);
-                box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
+                box-shadow: 0 2px 10px rgba(233, 69, 96, 0.3);
                 transition: transform 0.3s ease;
             }
 
@@ -366,36 +399,21 @@
                 position: absolute;
                 width: 200px;
                 height: 200px;
-                background: url('jersey-float.svg') center/contain no-repeat;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/></svg>') center/contain no-repeat;
                 animation: float 3s ease-in-out infinite;
                 opacity: 0.15;
                 z-index: 1;
-                filter: drop-shadow(0 0 15px rgba(118, 171, 174, 0.3));
+                filter: drop-shadow(0 0 15px rgba(249, 168, 38, 0.3));
                 transform-style: preserve-3d;
             }
 
-            .floating-jersey:nth-child(1) {
-                top: 20%;
-                left: 10%;
-                animation-delay: 0s;
-                transform: rotate(-15deg) translateZ(30px);
-                --rotation: -15deg;
-            }
-
-            .floating-jersey:nth-child(2) {
-                top: 40%;
-                right: 15%;
-                animation-delay: 1s;
-                transform: rotate(15deg) translateZ(40px);
-                --rotation: 15deg;
-            }
-
-            .floating-jersey:nth-child(3) {
-                bottom: 20%;
-                left: 20%;
-                animation-delay: 2s;
-                transform: rotate(-10deg) translateZ(35px);
-                --rotation: -10deg;
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
             }
 
             @keyframes backgroundShift {
@@ -686,47 +704,112 @@
                 }
             }
 
-            /* Navigation Mobile Optimization */
+            /* Navigation Styles */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 1rem 2rem;
+                background: rgba(26, 26, 46, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-container {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo h1 {
+                font-size: 1.5rem;
+                color: white;
+                background: linear-gradient(45deg, #ffffff, #f9a826);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+            }
+
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+            }
+
+            .nav-links a:hover {
+                background: rgba(233, 69, 96, 0.1);
+            }
+
+            .nav-links a.active {
+                background: linear-gradient(45deg, #e94560, #c31432);
+            }
+
+            /* Hamburger Menu */
+            .hamburger {
+                display: none;
+                cursor: pointer;
+                padding: 0.5rem;
+            }
+
+            .hamburger span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: white;
+                margin: 5px 0;
+                transition: 0.3s;
+            }
+
+            /* Mobile Navigation */
             @media (max-width: 768px) {
-                nav {
-                    padding: 1rem;
+                .hamburger {
+                    display: block;
                 }
 
                 .nav-links {
-                    display: none;
-                    position: absolute;
-                    top: 100%;
-                    left: 0;
-                    width: 100%;
-                    background: var(--secondary-color);
-                    padding: 1rem;
+                    position: fixed;
+                    top: 70px;
+                    right: -100%;
+                    width: 250px;
+                    height: calc(100vh - 70px);
+                    background: rgba(26, 26, 46, 0.95);
+                    backdrop-filter: blur(10px);
                     flex-direction: column;
-                    gap: 1rem;
-                }
-
-                .nav-links.show {
-                    display: flex;
-                }
-
-                .nav-links a {
-                    color: white;
-                    padding: 0.5rem;
-                    text-align: center;
-                }
-
-                .hamburger {
-                    display: block;
-                    cursor: pointer;
-                    padding: 0.5rem;
-                }
-
-                .hamburger span {
-                    display: block;
-                    width: 25px;
-                    height: 3px;
-                    background: var(--primary-color);
-                    margin: 5px 0;
+                    padding: 2rem;
                     transition: 0.3s;
+                    gap: 1.5rem;
+                }
+
+                .nav-links.active {
+                    right: 0;
+                }
+
+                .hamburger.active span:nth-child(1) {
+                    transform: rotate(45deg) translate(5px, 5px);
+                }
+
+                .hamburger.active span:nth-child(2) {
+                    opacity: 0;
+                }
+
+                .hamburger.active span:nth-child(3) {
+                    transform: rotate(-45deg) translate(7px, -6px);
                 }
             }
         </style>
@@ -736,12 +819,19 @@
   <!-- Header -->
 <header>
     <nav>
-        <div class="logo">Chairman's Jerseys</div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#products">Products</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Chairman's Jerseys</h1>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About</a>
+            </div>
         </div>
     </nav>
 </header>
@@ -749,8 +839,7 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="floating-jersey"></div>
-        <div class="floating-jersey"></div>
+        <div class="hero-image"></div>
         <div class="floating-jersey"></div>
         <div class="hero-content">
             <h1>Premium Jerseys at Affordable Prices</h1>
@@ -772,8 +861,6 @@
     <!-- About Section -->
     <section class="about" id="about">
         <div class="about-content">
-            <h2>About Us</h2>
-            <p>We are passionate about bringing you the highest quality football jerseys from your favorite teams worldwide. Each jersey in our collection is carefully selected to ensure authenticity and premium quality.</p>
             <div class="features">
                 <div class="feature">
                     <i class="fas fa-shipping-fast"></i>
@@ -869,14 +956,14 @@
         nav.appendChild(hamburger);
         
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
+            navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
 
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!nav.contains(e.target) && navLinks.classList.contains('show')) {
-                navLinks.classList.remove('show');
+            if (!nav.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
             }
         });
@@ -891,8 +978,8 @@
                         behavior: 'smooth'
                     });
                     // Close mobile menu after clicking
-                    if (navLinks.classList.contains('show')) {
-                        navLinks.classList.remove('show');
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
                         hamburger.classList.remove('active');
                     }
                 }
