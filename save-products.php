@@ -1,5 +1,8 @@
 <?php
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
 
 // Get the raw POST data
 $json = file_get_contents('php://input');
@@ -21,13 +24,17 @@ if ($data && isset($data['products'])) {
                 'description' => $product['description'],
                 'price' => $product['price'],
                 'discount' => $product['discount'],
-                'image' => $product['image']
+                'image' => [
+                    'url' => $product['image']['url'],
+                    'public_id' => $product['image']['public_id']
+                ]
             ];
         }, $data['products'])
     ];
 
     // Save the products to the JSON file
-    if (file_put_contents('products.json', json_encode($optimizedData, JSON_PRETTY_PRINT))) {
+    $file = 'products.json';
+    if (file_put_contents($file, json_encode($optimizedData, JSON_PRETTY_PRINT))) {
         echo json_encode(['success' => true]);
     } else {
         http_response_code(500);

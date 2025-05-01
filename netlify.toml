@@ -1,0 +1,6 @@
+[[plugins]]
+package = "@netlify/plugin-php"
+
+[build]
+command = "echo 'PHP build complete'"
+publish = "." 
