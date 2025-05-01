@@ -336,31 +336,21 @@
         }
 
         // Function to save products to JSON file
-        async function saveProducts() {
-            try {
-                if (products.length > MAX_PRODUCTS) {
-                    alert(`Maximum number of products (${MAX_PRODUCTS}) reached. Please delete some products before adding more.`);
-                    return false;
-                }
-
-                const response = await fetch('save-products.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ products }),
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to save products');
-                }
-                return true;
-            } catch (error) {
-                console.error('Error saving products:', error);
-                alert('Failed to save products. Please try again.');
-                return false;
-            }
+        function saveProducts() {
+    try {
+        if (products.length > MAX_PRODUCTS) {
+            alert(`Maximum number of products (${MAX_PRODUCTS}) reached. Please delete some products before adding more.`);
+            return false;
         }
+        localStorage.setItem('products', JSON.stringify(products));
+        return true;
+    } catch (error) {
+        console.error('Error saving products:', error);
+        alert('Failed to save products. Please try again.');
+        return false;
+    }
+}
+
         
         // Display products on the page
         const productsGrid = document.getElementById('productsGrid');
