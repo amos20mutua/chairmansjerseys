@@ -742,22 +742,3 @@
         }
     }
 </script>
-async function saveProduct(product) {
-    try {
-        // Get current products
-        const response = await fetch('https://gist.githubusercontent.com/your-username/your-gist-id/raw/products.json');
-        const data = await response.json();
-        
-        // Add new product
-        data.products.push(product);
-        
-        // You'll need to update your Gist using GitHub API
-        // For now, you can copy the updated JSON and manually update the Gist
-        console.log('Updated products:', JSON.stringify(data, null, 2));
-        
-        return true;
-    } catch (error) {
-        console.error('Error saving product:', error);
-        return false;
-    }
-}
