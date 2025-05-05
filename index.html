@@ -9,6 +9,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link rel="stylesheet" href="hose.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+        
+        <!-- Remove Firebase SDK scripts and add axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
 
      <body>
@@ -35,8 +40,7 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-image"></div>
-        <div class="floating-jersey"></div>
+        <div class="hero-3d-container" id="hero3d"></div>
         <div class="hero-content">
             <h1>Premium Jerseys at Affordable Prices</h1>
             <p>Discover our collection of authentic football jerseys from top teams around the world</p>
@@ -50,8 +54,59 @@
             <h2>Featured Jerseys</h2>
         </div>
         <div class="product-grid" id="productGrid">
-            <!-- Products will be loaded here -->
+            <!-- Products will be loaded here with lazy loading -->
         </div>
+        <script>
+            // Add Intersection Observer for lazy loading
+            const observerOptions = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            }, observerOptions);
+            
+            // Function to display products with lazy loading
+            function displayProducts(products) {
+                const productGrid = document.getElementById('productGrid');
+                productGrid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            ${product.discount > 0 ? `<div class="sale-badge">-${product.discount}%</div>` : ''}
+                            <img src="${product.image.url}" 
+                                 alt="${product.name}" 
+                                 class="product-image"
+                                 loading="lazy"
+                                 onload="this.classList.add('loaded')">
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <div class="product-price">
+                                ${product.discount > 0 
+                                    ? `<span class="original-price">KES ${product.price}</span>
+                                       <span class="discounted-price">KES ${(product.price * (1 - product.discount/100)).toFixed(2)}</span>`
+                                    : `<span class="price">KES ${product.price}</span>`
+                                }
+                            </div>
+                            <a href="https://api.whatsapp.com/send?phone=254768097103&text=I'm interested in the ${encodeURIComponent(product.name)} jersey" 
+                               class="purchase-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Purchase on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        </script>
     </section>
 
     <!-- About Section -->
@@ -132,7 +187,6 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2025 Chairman's Jerseys. All Rights Reserved. | Developed with 💻 by Amos❤️</p>
-            <a href="admin.html" class="admin-link">Admin Dashboard</a>
         </div>
     </footer>
     
@@ -188,55 +242,44 @@
         // Display products on the page
         const productGrid = document.getElementById('productGrid');
         
-        function displayProducts() {
-            productGrid.innerHTML = ''; // Clear existing products
-            
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                
-                const discountedPrice = product.discount > 0 
-                    ? product.price * (1 - product.discount/100)
-                    : product.price;
-                
-                productCard.innerHTML = `
-                    ${product.discount > 0 ? `<div class="sale-badge">-${product.discount}%</div>` : ''}
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <div class="product-price">
-                            ${product.discount > 0 
-                                ? `
-                                    <span class="original-price">KES ${product.price}</span>
-                                    <span class="discounted-price">KES ${discountedPrice.toFixed(2)}</span>
-                                    <span class="discount-badge">-${product.discount}% OFF</span>
-                                `
-                                : `<span class="discounted-price">KES ${product.price}</span>`
-                            }
-                        </div>
-                        <button class="purchase-btn" onclick="purchaseJersey('${product.name}', ${discountedPrice}, '${product.image}')">
-                            <i class="fab fa-whatsapp"></i> Purchase on WhatsApp
-                        </button>
-                    </div>
-                `;
-                
-                productGrid.appendChild(productCard);
-            });
-        }
-
-        // Display products when page loads
-        displayProducts();
-
-        // Check for product updates every 5 seconds
-        setInterval(() => {
-            const newProducts = JSON.parse(localStorage.getItem('products')) || [];
-            if (JSON.stringify(products) !== JSON.stringify(newProducts)) {
-                products.length = 0;
-                products.push(...newProducts);
-                displayProducts();
+        // Replace localStorage with Firebase
+        import { initializeApp } from 'firebase/app';
+        import { getFirestore, collection, getDocs } from 'firebase/firestore';
+        
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBXkN_8QqkXYz9Jz5uQnYYrK_tJ2xZqPvw",
+            authDomain: "chairmansj-440c6.firebaseapp.com",
+            projectId: "chairmansj-440c6",
+            storageBucket: "chairmansj-440c6.appspot.com",
+            messagingSenderId: "78506909728",
+            appId: "1:78506909728:web:YOUR_APP_ID_HERE"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Fetch products from Firebase
+        async function fetchProducts() {
+            try {
+                const snapshot = await db.collection('products').get();
+                const products = [];
+                snapshot.forEach(doc => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                displayProducts(products);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                productGrid.innerHTML = '<p>Failed to load products. Please try again later.</p>';
             }
-        }, 5000);
+        }
+        
+        // Call fetchProducts when page loads
+        fetchProducts();
+        
+        // Check for product updates every 5 seconds
+        setInterval(fetchProducts, 5000);
 
         function purchaseJersey(name, price, image) {
             const phoneNumber = '254768097103'; // Your WhatsApp number
@@ -252,5 +295,64 @@ Please provide more details about availability and payment options.`;
             window.open(whatsappUrl, '_blank');
         }
     </script>
+<script>
+    // Initialize Three.js scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const container = document.getElementById('hero3d');
+    
+    // Set renderer size and properties
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+    
+    // Create jersey geometry (simplified shirt shape)
+    const jerseyGeometry = new THREE.BoxGeometry(2, 3, 0.2);
+    const jerseyMaterial = new THREE.MeshPhongMaterial({
+        color: 0xe74c3c,
+        specular: 0x111111,
+        shininess: 30,
+        flatShading: true
+    });
+    const jersey = new THREE.Mesh(jerseyGeometry, jerseyMaterial);
+    
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(5, 5, 5);
+    
+    scene.add(jersey);
+    scene.add(ambientLight);
+    scene.add(pointLight);
+    
+    // Position camera
+    camera.position.z = 5;
+    
+    // Add OrbitControls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = false;
+    
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        jersey.rotation.y += 0.005;
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    });
+    
+    animate();
+</script>
 </body>
 </html>
