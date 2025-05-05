@@ -234,9 +234,14 @@
     </style>
 </head>
 <body>
-    <button class="logout-btn" onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
+    <div class="admin-actions">
+        <a href="index.html" class="home-btn">
+            <i class="fas fa-home"></i> Back to Website
+        </a>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
 
     <div class="admin-container">
         <div class="admin-header">
@@ -292,7 +297,13 @@
         let products = [];
         const MAX_PRODUCTS = 150;
         const CLOUDINARY_CLOUD_NAME = 'dqkkupkyg';
-        const CLOUDINARY_UPLOAD_PRESET = 'jersey_uploads'; // You need to create this in your Cloudinary dashboard
+        const CLOUDINARY_UPLOAD_PRESET = 'jersey_uploads';
+
+        // Add proper Cloudinary configuration
+        const cloudinary = new cloudinary.Cloudinary({
+            cloud_name: CLOUDINARY_CLOUD_NAME,
+            secure: true // Force HTTPS
+        });
 
         // Function to fetch products from JSON file
         async function fetchProducts() {
@@ -313,7 +324,15 @@
             formData.append('file', file);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
             formData.append('cloud_name', CLOUDINARY_CLOUD_NAME);
-
+            
+            // Enhanced image optimization parameters
+            formData.append('quality', 'auto:best');
+            formData.append('fetch_format', 'auto');
+            formData.append('width', 'auto');
+            formData.append('dpr', 'auto');
+            formData.append('responsive', 'true');
+            formData.append('format', 'webp');
+            
             try {
                 const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
                     method: 'POST',
@@ -327,36 +346,46 @@
                 const data = await response.json();
                 return {
                     url: data.secure_url,
-                    public_id: data.public_id
+                    public_id: data.public_id,
+                    width: data.width,
+                    height: data.height,
+                    format: data.format
                 };
             } catch (error) {
                 console.error('Error uploading image:', error);
+                alert('Failed to upload image. Please try again.');
                 throw error;
             }
         }
 
         // Function to save products to JSON file
-        function saveProducts() {
-    try {
-        if (products.length > MAX_PRODUCTS) {
-            alert(`Maximum number of products (${MAX_PRODUCTS}) reached. Please delete some products before adding more.`);
-            return false;
+        async function saveProducts() {
+            try {
+                localStorage.setItem('products', JSON.stringify(products));
+                return true;
+            } catch (error) {
+                console.error('Error saving products:', error);
+                return false;
+            }
         }
-        localStorage.setItem('products', JSON.stringify(products));
-        return true;
-    } catch (error) {
-        console.error('Error saving products:', error);
-        alert('Failed to save products. Please try again.');
-        return false;
-    }
-}
 
+        async function fetchProducts() {
+            try {
+                const storedProducts = localStorage.getItem('products');
+                products = storedProducts ? JSON.parse(storedProducts) : [];
+                displayProducts();
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                products = [];
+                displayProducts();
+            }
+        }
         
         // Display products on the page
         const productsGrid = document.getElementById('productsGrid');
         
         function displayProducts() {
-            productsGrid.innerHTML = ''; // Clear existing products
+            productsGrid.innerHTML = ''; 
             
             products.forEach((product, index) => {
                 const productCard = document.createElement('div');
@@ -366,8 +395,15 @@
                     ? product.price * (1 - product.discount/100)
                     : product.price;
                 
+                // Create responsive image URL
+                const imageUrl = product.image.url.replace('/upload/', '/upload/c_scale,w_auto,dpr_auto,f_auto,q_auto/');
+                
                 productCard.innerHTML = `
-                    <img src="${product.image.url}" alt="${product.name}" loading="lazy">
+                    <img src="${imageUrl}" 
+                         alt="${product.name}"
+                         loading="lazy"
+                         srcset="${imageUrl} 1x, ${imageUrl.replace('dpr_auto', 'dpr_2.0')} 2x"
+                         onerror="this.src='placeholder.jpg'">
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                     <div class="price">
@@ -456,4 +492,266 @@
         fetchProducts();
     </script>
 </body>
-</html> 
+</html>
+<style>
+    .admin-actions {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 1rem;
+        z-index: 1000;
+    }
+
+    .home-btn {
+        background: var(--accent-color);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .home-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .logout-btn {
+        position: static;
+        transform: none;
+    }
+</style>
+<script>
+    // Handle form submission
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const price = document.getElementById('price').value;
+        const discount = document.getElementById('discount').value;
+        const imageFile = document.getElementById('image').files[0];
+        
+        // Create a new product card
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        
+        // Calculate discounted price
+        const originalPrice = parseFloat(price);
+        const discountPercentage = parseFloat(discount) || 0;
+        const discountedPrice = originalPrice * (1 - discountPercentage / 100);
+        
+        // Create image preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            productCard.innerHTML = `
+                <img src="${e.target.result}" alt="${name}">
+                <h3>${name}</h3>
+                <p>${description}</p>
+                <div class="price">
+                    ${discountPercentage > 0 ? 
+                        `<span class="original-price">KES ${originalPrice.toFixed(2)}</span>
+                         <span class="discounted-price">KES ${discountedPrice.toFixed(2)}</span>
+                         <span class="discount-badge">-${discountPercentage}%</span>` 
+                        : 
+                        `<span>KES ${originalPrice.toFixed(2)}</span>`
+                    }
+                </div>
+                <button class="delete-btn" onclick="this.parentElement.remove()">Delete</button>
+            `;
+            
+            // Add the new product card to the grid
+            document.getElementById('productsGrid').appendChild(productCard);
+        };
+        
+        // Read the image file
+        if (imageFile) {
+            reader.readAsDataURL(imageFile);
+        }
+        
+        // Reset the form
+        e.target.reset();
+        
+        // Show success message
+        alert('Jersey added successfully!');
+    });
+</script>
+</body>
+// Remove Cloudinary script and add axios
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    // Initialize products array with caching
+    let products = [];
+    let lastFetch = 0;
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+    const JSONBIN_API_KEY = '$2a$10$605GyHAIOjLu2gXKIiGX/e2kvNuv3PLVOA01dPgdT8ITrsTGXF8Dy';
+    const BIN_ID = '68188f358561e97a500e21ec'; // Your specific bin ID
+    
+    // Function to fetch products with caching
+    async function fetchProducts() {
+        const now = Date.now();
+        if (now - lastFetch < CACHE_DURATION && products.length > 0) {
+            return products; // Use cached data
+        }
+        
+        try {
+            const response = await axios.get(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: {
+                    'X-Master-Key': JSONBIN_API_KEY
+                }
+            });
+            
+            products = response.data.record.products;
+            lastFetch = now;
+            displayProducts();
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            products = [];
+            displayProducts();
+        }
+    }
+
+    // Function to save products
+    async function saveProducts() {
+        try {
+            await axios.put(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                products: products
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': JSONBIN_API_KEY
+                }
+            });
+            return true;
+        } catch (error) {
+            console.error('Error saving products:', error);
+            return false;
+        }
+    }
+    
+    // Optimized image upload function
+    async function uploadImage(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('key', '056a6f22762561674e3e5b4a9f633a37');
+    
+        try {
+            const response = await axios.post('https://api.imgbb.com/1/upload', formData);
+            return {
+                url: response.data.data.url,
+                delete_url: response.data.data.delete_url,
+                thumb: response.data.data.thumb.url // Store thumbnail for faster loading
+            };
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    }
+    
+    // Optimized save function with debouncing
+    let saveTimeout;
+    async function saveProducts() {
+        clearTimeout(saveTimeout);
+        return new Promise((resolve) => {
+            saveTimeout = setTimeout(async () => {
+                try {
+                    localStorage.setItem('products', JSON.stringify(products));
+                    resolve(true);
+                } catch (error) {
+                    console.error('Error saving products:', error);
+                    resolve(false);
+                }
+            }, 300); // Debounce saves by 300ms
+        });
+    }
+    
+    // Optimized display function with lazy loading
+    function displayProducts() {
+        const productsGrid = document.getElementById('productsGrid');
+        productsGrid.innerHTML = '';
+        
+        products.forEach((product, index) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            
+            const discountedPrice = product.discount > 0 
+                ? product.price * (1 - product.discount/100)
+                : product.price;
+            
+            productCard.innerHTML = `
+                <img src="${product.image.thumb}" 
+                     data-src="${product.image.url}"
+                     alt="${product.name}"
+                     loading="lazy"
+                     class="product-image">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="price">
+                    ${product.discount > 0 
+                        ? `<span class="original-price">KES ${product.price}</span>
+                           <span class="discounted-price">KES ${discountedPrice.toFixed(2)}</span>`
+                        : `<span class="price">KES ${product.price}</span>`
+                    }
+                </div>
+                <button class="delete-btn" onclick="deleteProduct(${index})">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            `;
+            
+            productsGrid.appendChild(productCard);
+        });
+        
+        // Initialize lazy loading
+        const images = document.querySelectorAll('.product-image');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    }
+
+    // Update the delete product function
+    async function deleteProduct(index) {
+        if (confirm('Are you sure you want to delete this jersey?')) {
+            products.splice(index, 1);
+            const success = await saveProducts();
+            if (success) {
+                displayProducts();
+            }
+        }
+    }
+</script>
+async function saveProduct(product) {
+    try {
+        // Get current products
+        const response = await fetch('https://gist.githubusercontent.com/your-username/your-gist-id/raw/products.json');
+        const data = await response.json();
+        
+        // Add new product
+        data.products.push(product);
+        
+        // You'll need to update your Gist using GitHub API
+        // For now, you can copy the updated JSON and manually update the Gist
+        console.log('Updated products:', JSON.stringify(data, null, 2));
+        
+        return true;
+    } catch (error) {
+        console.error('Error saving product:', error);
+        return false;
+    }
+}
