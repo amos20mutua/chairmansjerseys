@@ -6,6 +6,8 @@
     <title>Admin Dashboard - Chairman's Jerseys</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Axios before other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -589,30 +591,33 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    // Initialize products array with caching
-    let products = [];
-    let lastFetch = 0;
-    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+    // Initialize important variables
+    let products = [];  // Array to store all products
+    let lastFetch = 0;  // Timestamp of last data fetch
+    const CACHE_DURATION = 5 * 60 * 1000;  // Cache duration (5 minutes)
     const JSONBIN_API_KEY = '$2a$10$605GyHAIOjLu2gXKIiGX/e2kvNuv3PLVOA01dPgdT8ITrsTGXF8Dy';
-    const BIN_ID = '68188f358561e97a500e21ec'; // Your specific bin ID
+    const BIN_ID = '68188f358561e97a500e21ec';  // Your JSONBin storage ID
     
-    // Function to fetch products with caching
+    // Function to fetch products from JSONBin
     async function fetchProducts() {
+        // Check if we have recent cached data
         const now = Date.now();
         if (now - lastFetch < CACHE_DURATION && products.length > 0) {
-            return products; // Use cached data
+            return products;  // Use cached data if available
         }
         
         try {
+            // Make API request to get products from JSONBin
             const response = await axios.get(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
                 headers: {
                     'X-Master-Key': JSONBIN_API_KEY
                 }
             });
             
+            // Update local data
             products = response.data.record.products;
             lastFetch = now;
-            displayProducts();
+            displayProducts();  // Show products on page
         } catch (error) {
             console.error('Error fetching products:', error);
             products = [];
@@ -621,8 +626,9 @@
     }
 
     // Function to save products
-    async function saveProducts() {
+    async function saveProduct(product) {
         try {
+            products.push(product);
             await axios.put(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                 products: products
             }, {
@@ -633,7 +639,7 @@
             });
             return true;
         } catch (error) {
-            console.error('Error saving products:', error);
+            console.error('Error saving product:', error);
             return false;
         }
     }
