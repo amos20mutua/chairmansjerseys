@@ -14,6 +14,62 @@
         
         <!-- Remove Firebase SDK scripts and add axios -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .product-card {
+                background: rgba(15, 52, 96, 0.2);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            }
+
+            .product-image-container {
+                position: relative;
+                width: 100%;
+                padding-top: 100%;
+                background: rgba(15, 52, 96, 0.1);
+                overflow: hidden;
+            }
+
+            .product-info {
+                padding: 1.5rem;
+                background: rgba(15, 52, 96, 0.2);
+                backdrop-filter: blur(10px);
+            }
+
+            .purchase-btn {
+                background: linear-gradient(45deg, #e94560, #c31432);
+                color: white;
+                padding: 0.8rem 1.5rem;
+                border-radius: 8px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            /* Hover effects only for larger screens */
+            @media (min-width: 769px) {
+                .product-card {
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .product-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+                }
+
+                .purchase-btn {
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .purchase-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+                }
+            }
+        </style>
     </head>
 
      <body>
@@ -53,8 +109,8 @@
         <div class="section-title">
             <h2>Featured Jerseys</h2>
         </div>
-        <div class="product-grid" id="productGrid">
-            <!-- Products will be loaded here with lazy loading -->
+        <div class="product-grid" id="productsContainer">
+            <!-- Products will be inserted here dynamically -->
         </div>
         <script>
             // Add Intersection Observer for lazy loading
@@ -77,8 +133,10 @@
             
             // Function to display products with lazy loading
             function displayProducts(products) {
-                const productGrid = document.getElementById('productGrid');
-                productGrid.innerHTML = products.map(product => `
+                const container = document.getElementById('productsContainer');
+                if (!container) return;
+                
+                container.innerHTML = products.map(product => `
                     <div class="product-card">
                         <div class="product-image-container">
                             ${product.discount > 0 ? `<div class="sale-badge">-${product.discount}%</div>` : ''}
@@ -86,7 +144,7 @@
                                  alt="${product.name}" 
                                  class="product-image"
                                  loading="lazy"
-                                 onload="this.classList.add('loaded')">
+                                 onerror="this.src='https://via.placeholder.com/300x400?text=Image+Not+Found'">
                         </div>
                         <div class="product-info">
                             <h3>${product.name}</h3>
@@ -98,13 +156,45 @@
                                     : `<span class="price">KES ${product.price}</span>`
                                 }
                             </div>
-                            <a href="https://api.whatsapp.com/send?phone=254768097103&text=I'm interested in the ${encodeURIComponent(product.name)} jersey" 
+                            <a href="https://api.whatsapp.com/send?phone=254768097103&text=${encodeURIComponent(`🏷️ *Chairman's Jerseys - Product Inquiry* 🏷️
+
+*Product Details:*
+📌 Name: ${product.name}
+💰 Price: KES ${product.discount > 0 ? (product.price * (1 - product.discount/100)).toFixed(2) : product.price}
+${product.discount > 0 ? `🎯 Discount: ${product.discount}% off` : ''}
+📝 Description: ${product.description}
+
+🖼️ View Product: ${product.image.url}
+
+I'm interested in purchasing this jersey. Please provide more details about availability and payment options.
+
+Thank you!`)}" 
                                class="purchase-btn" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Purchase on WhatsApp
                             </a>
                         </div>
                     </div>
                 `).join('');
+
+                // Initialize lazy loading for images
+                const images = container.querySelectorAll('.product-image');
+                images.forEach(img => {
+                    if ('loading' in HTMLImageElement.prototype) {
+                        img.setAttribute('loading', 'lazy');
+                    } else {
+                        // Fallback for browsers that don't support lazy loading
+                        const observer = new IntersectionObserver((entries, observer) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const img = entry.target;
+                                    img.src = img.dataset.src;
+                                    observer.unobserve(img);
+                                }
+                            });
+                        });
+                        observer.observe(img);
+                    }
+                });
             }
         </script>
     </section>
@@ -263,15 +353,22 @@
         // Fetch products from Firebase
         async function fetchProducts() {
             try {
-                const snapshot = await db.collection('products').get();
-                const products = [];
-                snapshot.forEach(doc => {
-                    products.push({ id: doc.id, ...doc.data() });
+                const response = await axios.get(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_API_KEY
+                    }
                 });
+                
+                // Store the fetched products
+                products = response.data.record;
+                lastFetch = Date.now();
+                
+                // Display the products
                 displayProducts(products);
+                return products;
             } catch (error) {
                 console.error('Error fetching products:', error);
-                productGrid.innerHTML = '<p>Failed to load products. Please try again later.</p>';
+                throw error;
             }
         }
         
@@ -308,7 +405,7 @@ Please provide more details about availability and payment options.`;
     container.appendChild(renderer.domElement);
     
     // Create jersey geometry (simplified shirt shape)
-    const jerseyGeometry = new THREE.BoxGeometry(2, 3, 0.2);
+    const jerseyGeometry = new THREE.BoxGeometry(4, 6, 0.2);
     const jerseyMaterial = new THREE.MeshPhongMaterial({
         color: 0xe74c3c,
         specular: 0x111111,
@@ -317,17 +414,48 @@ Please provide more details about availability and payment options.`;
     });
     const jersey = new THREE.Mesh(jerseyGeometry, jerseyMaterial);
     
+    // Add 3D text
+    const loader = new THREE.FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+        const textGeometry = new THREE.TextGeometry('Jose', {
+            font: font,
+            size: 0.6,
+            height: 0.2,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.06,
+            bevelSize: 0.04,
+            bevelOffset: 0,
+            bevelSegments: 5
+        });
+        
+        const textMaterial = new THREE.MeshPhongMaterial({
+            color: 0x00008B,
+            specular: 0x111111,
+            shininess: 30
+        });
+        
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        
+        // Center the text
+        textGeometry.computeBoundingBox();
+        const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+        textMesh.position.set(-textWidth/2, 1, 0.11);
+        
+        scene.add(textMesh);
+    });
+    
     // Add lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(5, 5, 5);
+    pointLight.position.set(10, 10, 10);
     
     scene.add(jersey);
     scene.add(ambientLight);
     scene.add(pointLight);
     
     // Position camera
-    camera.position.z = 5;
+    camera.position.z = 10;
     
     // Add OrbitControls
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -356,3 +484,75 @@ Please provide more details about availability and payment options.`;
 </script>
 </body>
 </html>
+<script>
+    const JSONBIN_API_KEY = '$2a$10$605GyHAIOjLu2gXKIiGX/e2kvNuv3PLVOA01dPgdT8ITrsTGXF8Dy';
+    const BIN_ID = '68188f358561e97a500e21ec';
+
+    // Function to display products
+    function displayProducts(products) {
+        const container = document.getElementById('productsContainer');
+        if (!container) return;
+        
+        container.innerHTML = products.map(product => `
+            <div class="product-card">
+                <div class="product-image-container">
+                    ${product.discount > 0 ? `<div class="sale-badge">-${product.discount}%</div>` : ''}
+                    <img src="${product.image.url}" 
+                         alt="${product.name}" 
+                         class="product-image"
+                         loading="lazy"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.src='https://via.placeholder.com/300x400?text=Image+Not+Found'; this.classList.add('loaded')">
+                </div>
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="product-price">
+                        ${product.discount > 0 
+                            ? `<span class="original-price">KES ${product.price}</span>
+                               <span class="discounted-price">KES ${(product.price * (1 - product.discount/100)).toFixed(2)}</span>`
+                            : `<span class="price">KES ${product.price}</span>`
+                        }
+                    </div>
+                    <a href="https://api.whatsapp.com/send?phone=254768097103&text=${encodeURIComponent(`🏷️ *Chairman's Jerseys - Product Inquiry* 🏷️
+
+*Product Details:*
+📌 Name: ${product.name}
+💰 Price: KES ${product.discount > 0 ? (product.price * (1 - product.discount/100)).toFixed(2) : product.price}
+${product.discount > 0 ? `🎯 Discount: ${product.discount}% off` : ''}
+📝 Description: ${product.description}
+
+🖼️ View Product: ${product.image.url}
+
+I'm interested in purchasing this jersey. Please provide more details about availability and payment options.
+
+Thank you!`)}" 
+                       class="purchase-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Purchase on WhatsApp
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Function to fetch products from JSONBin
+    async function loadProducts() {
+        try {
+            const response = await axios.get(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: {
+                    'X-Master-Key': JSONBIN_API_KEY
+                }
+            });
+            
+            const products = response.data.record;
+            console.log('Fetched products:', products); // Debug log
+            displayProducts(products);
+        } catch (error) {
+            console.error('Error loading products:', error);
+            displayProducts([]);
+        }
+    }
+
+    // Load products when page loads
+    document.addEventListener('DOMContentLoaded', loadProducts);
+</script>
