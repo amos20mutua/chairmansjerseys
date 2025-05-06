@@ -54,7 +54,7 @@
         }
 
         .about-content {
-            background: rgba(15, 52, 96, 0.1);
+            background: rgba(15, 52, 96, 0.2);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2rem;
@@ -86,10 +86,63 @@
         }
 
         .contact-card {
-            background: rgba(15, 52, 96, 0.1);
+            background: rgba(15, 52, 96, 0.2);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
-            border-radius: 10px;
+            border-radius: 15px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .info-card {
+            background: rgba(15, 52, 96, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature {
+            background: rgba(15, 52, 96, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Hover effects only for larger screens */
+        @media (min-width: 769px) {
+            .contact-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .contact-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            }
+
+            .info-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            }
+
+            .feature {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .feature:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            }
         }
 
         .contact-card i {
@@ -256,6 +309,13 @@
                 transform: rotate(-45deg) translate(7px, -6px);
             }
         }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -273,7 +333,6 @@
                 <div class="nav-links">
                     <a href="index.html">Home</a>
                     <a href="about.html" class="active">About</a>
-                    <a href="admin.html">Admin</a>
                 </div>
             </div>
         </nav>
